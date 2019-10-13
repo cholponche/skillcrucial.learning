@@ -6,16 +6,16 @@ import Head from './head'
 import { getData } from '../redux/reducers/users'
 
 const Dummy = (props) => {
-  const [counter] = useState(4)
+  const [pageIndex, setPageIndex] = useState(0)
   const { getData: getDataProps } = props
   useEffect(() => {
     getDataProps();
-  }, [getDataProps])
+  }, [getDataProps, pageIndex])
   return (
     <div>
       <Head title="Hello" />
-      <div> {props.isRequesting ? 'Your data is loading' : ''} </div>
-      <div> Hello World {counter} </div>
+      <div> {props.isRequesting ? 'Hi there' : ''} </div>
+      <div> Page { pageIndex } { props.users.length } </div>
       <table>
         <tr>
           <td>Avatar</td>
@@ -44,7 +44,19 @@ const Dummy = (props) => {
           ))
         }
       </table>
-      <img src={`/tracker/${counter}.gif`} alt="tracker" />
+      <button
+        type="button"
+        onClick={() => setPageIndex(Math.max(0, pageIndex - 1))}
+      >
+        Previous
+      </button>
+      <button
+        type="button"
+        onClick={() => setPageIndex(pageIndex + 1)}
+      >
+        Next
+      </button>
+      <img src={`/tracker/${pageIndex}.gif`} alt="tracker" />
     </div>
   )
 }
