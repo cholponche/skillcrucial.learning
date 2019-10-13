@@ -14,8 +14,36 @@ const Dummy = (props) => {
   return (
     <div>
       <Head title="Hello" />
+      <div> {props.isRequesting ? 'Your data is loading' : ''} </div>
       <div> Hello World {counter} </div>
-      <div> {JSON.stringify(props.users)} </div>
+      <table>
+        <tr>
+          <td>Avatar</td>
+          <td>Name</td>
+          <td>City</td>
+          <td>Country</td>
+          <td>Email</td>
+          <td>Company</td>
+          <td>Department</td>
+          <td>Salary</td>
+          <td>Age</td>
+        </tr>
+        {
+          props.users.map(user => (
+            <tr>
+              <td><img src={user.avatar} alt="" /></td>
+              <td>{user.name}</td>
+              <td>{user.city}</td>
+              <td>{user.country}</td>
+              <td>{user.email}</td>
+              <td>{user.company}</td>
+              <td>{user.department}</td>
+              <td>{user.salary}</td>
+              <td>{user.age}</td>
+            </tr>
+          ))
+        }
+      </table>
       <img src={`/tracker/${counter}.gif`} alt="tracker" />
     </div>
   )
@@ -24,7 +52,8 @@ const Dummy = (props) => {
 Dummy.propTypes = {}
 
 const mapStateToProps = state => ({
-  users: state.users.list
+  users: state.users.list,
+  isRequesting: state.users.isRequesting
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({ getData }, dispatch)

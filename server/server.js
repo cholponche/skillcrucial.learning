@@ -56,9 +56,13 @@ server.get('/js/variables.js', (req, res) => {
 
 const getFakeUser = () => {
   return {
+    avatar: faker.image.avatar(),
     name: faker.name.findName(),
+    city: faker.address.city(),
+    country: faker.address.country(),
     email: faker.internet.email(),
     company: faker.company.companyName(),
+    department: faker.commerce.department(),
     salary: faker.finance.amount(),
     age: (faker.random.number() % 30) + 18
   }
@@ -96,13 +100,13 @@ server.get('/tracker/:userId.gif', (req, res) => {
 })
 
 server.get('/api/users', (req, res) => {
-  const fileName = `${__dirname}/tmp/data.json`;
+  const fileName = `${__dirname}\\tmp\\data.json`;
   fs.readFile(
     fileName,
     (err, data) => {
       if (!err) {
         return res.json(
-          JSON.parse(data)
+          JSON.parse(data).slice(0, 10)
         )
       }
       const dataGenerated = new Array(100).fill(null).map(getFakeUser);
@@ -111,7 +115,7 @@ server.get('/api/users', (req, res) => {
         JSON.stringify(dataGenerated),
         () => {
           res.json(
-            dataGenerated
+            dataGenerated.slice(0, 10)
           )
         }
       )
